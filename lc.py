@@ -3,17 +3,56 @@ import binascii
 filename = 'C:\\Users\Trevor\Google Drive\School\\2017 Spring\\Computer Organization\\Lab 2\\Memory Contents Lab 1.txt'
 memory_locations = dict()
 
+
 class Line:
-    memory_address = ''
-    memory_contents_bin = ''
-    memory_contents_hex = ''
-    ascii = ''
-    instruction = ''
+    address, mem_bin, mem_hex, ascii, instruction, description = [None] * 5
 
     def __init__(self, m_address, m_contents_bin, m_contents_hex):
-        self.memory_address = m_address
-        self.memory_contents_bin = m_contents_bin
-        self.memory_contents_hex = m_contents_hex
+        self.address = m_address
+        self.mem_bin = m_contents_bin
+        self.mem_hex = m_contents_hex
+        
+        if m_contents_bin.startswith('0001') and m_contents_bin[10:11] == '0':
+            self.instruction = 'ADD+'
+        elif m_contents_bin.startswith('0001') and m_contents_bin[10:11] == '1':
+            self.instruction = 'ADD+ (2)'
+            print('Destination Register: ' + ' ' + get_bits(11, 9, m_contents_bin))
+        elif m_contents_bin.startswith('0101') and m_contents_bin[10:11] == '0':
+            self.instruction = 'AND+'
+        elif m_contents_bin.startswith('0101') and m_contents_bin[10:11] == '1':
+            self.instruction = 'AND+ (2)'
+        elif m_contents_bin.startswith('0000'):
+            self.instruction = 'BR'
+        elif m_contents_bin.startswith('1100'):
+            self.instruction = 'JMP'
+        elif m_contents_bin.startswith('0100'):
+            self.instruction = 'JSR'
+        elif m_contents_bin.startswith('0100'):
+            self.instruction = 'JSRR'
+        elif m_contents_bin.startswith('0010'):
+            self.instruction = 'LD+'
+        elif m_contents_bin.startswith('1010'):
+            self.instruction = 'LDI+'
+        elif m_contents_bin.startswith('0110'):
+            self.instruction = 'LDR+'
+        elif m_contents_bin.startswith('1110'):
+            self.instruction = 'LEA+'
+        elif m_contents_bin.startswith('1001'):
+            self.instruction = 'NOT+'
+        elif m_contents_bin.startswith('1100'):
+            self.instruction = 'RET'
+        elif m_contents_bin.startswith('1000'):
+            self.instruction = 'RTI'
+        elif m_contents_bin.startswith('0011'):
+            self.instruction = 'ST'
+        elif m_contents_bin.startswith('1011'):
+            self.instruction = 'STI'
+        elif m_contents_bin.startswith('0111'):
+            self.instruction = 'STR'
+        elif m_contents_bin.startswith('1111'):
+            self.instruction = 'TRAP'
+        else:
+            print('other')
 
     def describe_contents(self):
         print('memory thing')
